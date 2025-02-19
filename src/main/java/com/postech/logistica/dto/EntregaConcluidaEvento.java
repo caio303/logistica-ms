@@ -2,19 +2,32 @@ package com.postech.logistica.dto;
 
 import com.postech.logistica.enums.StatusEntrega;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
-
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@ToString
 public class EntregaConcluidaEvento {
     private Long pedidoId;
     private StatusEntrega status;
+
+    public EntregaConcluidaEvento(Long pedidoId, StatusEntrega status) {
+        this.pedidoId = pedidoId;
+        this.status = status;
+    }
+
+    public EntregaConcluidaEvento() {
+    }
+
+    public Long getPedidoId() {
+        return pedidoId;
+    }
+
+    public void setPedidoId(Long pedidoId) {
+        this.pedidoId = pedidoId;
+    }
+
+    public StatusEntrega getStatus() {
+        return status;
+    }
+
+    public void setStatus(StatusEntrega status) {
+        this.status = status;
+    }
 }
 

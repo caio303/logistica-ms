@@ -1,20 +1,20 @@
 package com.postech.logistica.messaging;
 
-import java.util.function.Consumer;
-
+import com.postech.logistica.dto.NovoPedidoDTO;
+import com.postech.logistica.service.EntregaService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
-import com.postech.logistica.dto.NovoPedidoDTO;
-import com.postech.logistica.service.EntregaService;
-
-import lombok.RequiredArgsConstructor;
+import java.util.function.Consumer;
 
 @Component
-@RequiredArgsConstructor
 public class PedidoConsumer {
 
     private final EntregaService entregaService;
+
+    public PedidoConsumer(EntregaService entregaService) {
+        this.entregaService = entregaService;
+    }
 
     @Bean
     public Consumer<NovoPedidoDTO> novoPedidoConsumer() {

@@ -1,20 +1,21 @@
 package com.postech.logistica.messaging;
 
-import java.util.function.Consumer;
-
-import org.springframework.stereotype.Component;
-
 import com.postech.logistica.dto.EstoqueInsuficienteEvento;
 import com.postech.logistica.service.EntregaService;
+import org.springframework.stereotype.Component;
 
-import lombok.RequiredArgsConstructor;
+import java.util.function.Consumer;
 
 @Component
-@RequiredArgsConstructor
 public class EstoqueInsuficienteConsumer implements Consumer<EstoqueInsuficienteEvento> {
 
     private final EntregaService entregaService;
     private final EntregaIniciadaProducer entregaIniciadaProducer;
+
+    public EstoqueInsuficienteConsumer(EntregaService entregaService, EntregaIniciadaProducer entregaIniciadaProducer) {
+        this.entregaService = entregaService;
+        this.entregaIniciadaProducer = entregaIniciadaProducer;
+    }
 
     @Override
     public void accept(EstoqueInsuficienteEvento evento) {

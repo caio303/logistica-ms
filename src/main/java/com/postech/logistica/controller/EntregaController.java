@@ -1,9 +1,10 @@
 package com.postech.logistica.controller;
 
 
-
-import java.util.List;
-
+import com.postech.logistica.dto.AtualizaStatusEntregaDTO;
+import com.postech.logistica.entity.Entrega;
+import com.postech.logistica.messaging.EntregaConcluidaProducer;
+import com.postech.logistica.service.EntregaService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,21 +15,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.postech.logistica.dto.AtualizaStatusEntregaDTO;
-import com.postech.logistica.entity.Entrega;
-import com.postech.logistica.messaging.EntregaConcluidaProducer;
-import com.postech.logistica.service.EntregaService;
-
-import lombok.RequiredArgsConstructor;
+import java.util.List;
 
 @RestController
 @RequestMapping("/entregas")
-@RequiredArgsConstructor
 public class EntregaController {
 
     private final EntregaService entregaService;
     
     private final EntregaConcluidaProducer entregaConcluidaProducer;
+
+    public EntregaController(EntregaService entregaService, EntregaConcluidaProducer entregaConcluidaProducer) {
+        this.entregaService = entregaService;
+        this.entregaConcluidaProducer = entregaConcluidaProducer;
+    }
 
     @GetMapping
     public List<Entrega> listarEntregas() {
@@ -48,7 +48,7 @@ public class EntregaController {
     
     @PutMapping("/{id}/status")
     public ResponseEntity<Entrega> atualizarStatus(@PathVariable Long id, @RequestBody AtualizaStatusEntregaDTO dto) {
-        Entrega entregaAtualizada = entregaService.atualizarStatus(id, dto.getStatus());
+        Entrega entregaAtualizada = entregaService.atualizarStatus(id, dto.status());
         return ResponseEntity.ok(entregaAtualizada);
     }
     

@@ -1,23 +1,19 @@
 package com.postech.logistica.service;
 
 
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
-import org.springframework.stereotype.Service;
-
 import com.postech.logistica.dto.NovoPedidoDTO;
 import com.postech.logistica.entity.Entrega;
 import com.postech.logistica.enums.StatusEntrega;
 import com.postech.logistica.messaging.StatusEntregaProducer;
 import com.postech.logistica.repository.EntregaRepository;
+import org.springframework.stereotype.Service;
 
-import lombok.RequiredArgsConstructor;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
-@RequiredArgsConstructor
 public class EntregaService {
 
     private final EntregaRepository entregaRepository;
@@ -25,19 +21,27 @@ public class EntregaService {
     private final CepService cepService;
     private static final double RAIO_TERRA_KM = 6371.0;
 
+    public EntregaService(EntregaRepository entregaRepository, StatusEntregaProducer statusEntregaProducer, CepService cepService) {
+        this.entregaRepository = entregaRepository;
+        this.statusEntregaProducer = statusEntregaProducer;
+        this.cepService = cepService;
+    }
+
     public Entrega criarEntrega(NovoPedidoDTO novoPeditoDTO) {
-    	double[] coordenadas = cepService.buscarLatitudeLongitude(novoPeditoDTO.getCep());
+    	double[] coordenadas = cepService.buscarLatitudeLongitude(novoPeditoDTO.cep());
         double latitude = coordenadas[0];
         double longitude = coordenadas[1];
         
-        Entrega entrega = Entrega.builder()
-                .pedidoId(novoPeditoDTO.getIdPedido())
-                .endereco(novoPeditoDTO.getCep())
-                .latitude(latitude)
-                .longitude(longitude)
-                .status(StatusEntrega.EM_SEPARACAO)
-                .dataCriacao(LocalDateTime.now())
-                .build();
+        Entrega entrega = new Entrega(
+                null,
+                novoPeditoDTO.pedidoId(),
+                novoPeditoDTO.cep(),
+                latitude,
+                longitude,
+                StatusEntrega.EM_SEPARACAO,
+                LocalDateTime.now()
+        );
+
         return entregaRepository.save(entrega);
     }
 

@@ -28,14 +28,14 @@ public class EntregaService {
     }
 
     public Entrega criarEntrega(NovoPedidoDTO novoPeditoDTO) {
-    	double[] coordenadas = cepService.buscarLatitudeLongitude(novoPeditoDTO.cep());
+    	double[] coordenadas = cepService.buscarLatitudeLongitude(novoPeditoDTO.cepEntrega());
         double latitude = coordenadas[0];
         double longitude = coordenadas[1];
         
         Entrega entrega = new Entrega(
                 null,
                 novoPeditoDTO.pedidoId(),
-                novoPeditoDTO.cep(),
+                novoPeditoDTO.cepEntrega(),
                 latitude,
                 longitude,
                 StatusEntrega.EM_SEPARACAO,

@@ -4,7 +4,7 @@ import java.util.Map;
 
 public record NovoPedidoDTO (
         Long pedidoId,
-        String cep,
+        String cepEntrega,
         Map<Long, Integer> itens
 ) {
 }

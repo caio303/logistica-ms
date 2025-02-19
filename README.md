@@ -15,10 +15,10 @@ E produz mensagens para estes:
 
 ### Environment Vars
 
-* LOGISTICA_API_PORT    _(8082)_
+* LOGISTICA_API_PORT    _(8083)_
 * LOGISTICA_DB_USER     _(postgres)_
-* LOGISTICA_DB_PASSWORD _(postgrespw)_
+* LOGISTICA_DB_PASSWORD _(postgres)_
 * LOGISTICA_DB_HOST     _(postgresql://localhost)_
-* LOGISTICA_DB_PORT     _(55000)_
+* LOGISTICA_DB_PORT     _(5432)_
 * LOGISTICA_DB_NAME     _(logisticadb)_
 * LOGISTICA_BROKER_HOST _(localhost:9092)_

@@ -1,6 +1,6 @@
 package com.postech.logistica.service;
 
-import org.json.JSONObject;
+import com.postech.logistica.dto.LatitudeLongitudeDTO;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -9,17 +9,14 @@ public class CepService {
 
     private static final String API_URL = "https://viacep.com.br/ws/%s/json/";
 
+    // TODO: buscar latitude e longitude, viacep não retorna esses dados
     public double[] buscarLatitudeLongitude(String cep) {
         try {
             String url = String.format(API_URL, cep);
             RestTemplate restTemplate = new RestTemplate();
-            String response = restTemplate.getForObject(url, String.class);
-            JSONObject json = new JSONObject(response);
+            var response = restTemplate.getForObject(url, LatitudeLongitudeDTO.class);
             
-            double latitude = json.optDouble("latitude", 0.0);
-            double longitude = json.optDouble("longitude", 0.0);
-            
-            return new double[]{latitude, longitude};
+            return new double[]{response.latitude(), response.longitude()};
         } catch (Exception e) {
             System.err.println("Erro ao buscar coordenadas para o CEP " + cep + ": " + e.getMessage());
             return new double[]{0.0, 0.0};

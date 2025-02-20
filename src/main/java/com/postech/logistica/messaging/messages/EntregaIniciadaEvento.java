@@ -1,17 +1,17 @@
-package com.postech.logistica.dto;
+package com.postech.logistica.messaging.messages;
 
 import com.postech.logistica.enums.StatusEntrega;
 
-public class EntregaConcluidaEvento {
+public class EntregaIniciadaEvento {
     private Long pedidoId;
     private StatusEntrega status;
 
-    public EntregaConcluidaEvento(Long pedidoId, StatusEntrega status) {
+    public EntregaIniciadaEvento(Long pedidoId, StatusEntrega status) {
         this.pedidoId = pedidoId;
         this.status = status;
     }
 
-    public EntregaConcluidaEvento() {
+    public EntregaIniciadaEvento() {
     }
 
     public Long getPedidoId() {
@@ -30,4 +30,3 @@ public class EntregaConcluidaEvento {
         this.status = status;
     }
 }
-

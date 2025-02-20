@@ -1,4 +1,4 @@
-package com.postech.logistica.dto;
+package com.postech.logistica.messaging.messages;
 
 public class EstoqueInsuficienteEvento {
     private Long pedidoId;

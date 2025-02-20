@@ -1,6 +1,6 @@
 package com.postech.logistica.messaging;
 
-import com.postech.logistica.dto.EstoqueInsuficienteEvento;
+import com.postech.logistica.messaging.messages.EstoqueInsuficienteEvento;
 import com.postech.logistica.service.EntregaService;
 import org.springframework.stereotype.Component;
 

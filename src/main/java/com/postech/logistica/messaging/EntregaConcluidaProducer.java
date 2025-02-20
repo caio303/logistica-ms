@@ -1,7 +1,7 @@
 package com.postech.logistica.messaging;
 
-import com.postech.logistica.dto.EntregaConcluidaEvento;
 import com.postech.logistica.enums.StatusEntrega;
+import com.postech.logistica.messaging.messages.EntregaConcluidaEvento;
 import org.springframework.cloud.stream.function.StreamBridge;
 import org.springframework.stereotype.Service;
 

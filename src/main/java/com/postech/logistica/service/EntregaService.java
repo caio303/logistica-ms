@@ -31,18 +31,23 @@ public class EntregaService {
     	double[] coordenadas = cepService.buscarLatitudeLongitude(novoPeditoDTO.cepEntrega());
         double latitude = coordenadas[0];
         double longitude = coordenadas[1];
-        
+
+        long pedidoId = novoPeditoDTO.pedidoId();
+        var novoStatus = StatusEntrega.EM_SEPARACAO;
         Entrega entrega = new Entrega(
                 null,
-                novoPeditoDTO.pedidoId(),
+                pedidoId,
                 novoPeditoDTO.cepEntrega(),
                 latitude,
                 longitude,
-                StatusEntrega.EM_SEPARACAO,
+                novoStatus,
                 LocalDateTime.now()
         );
 
-        return entregaRepository.save(entrega);
+        var result = entregaRepository.save(entrega);
+
+        statusEntregaProducer.enviarEventoStatusEntrega(pedidoId, novoStatus);
+        return result;
     }
 
     public List<Entrega> listarEntregas() {

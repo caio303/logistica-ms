@@ -3,6 +3,7 @@ package com.postech.logistica.controller;
 
 import com.postech.logistica.dto.AtualizaStatusEntregaDTO;
 import com.postech.logistica.entity.Entrega;
+import com.postech.logistica.enums.StatusEntrega;
 import com.postech.logistica.messaging.EntregaConcluidaProducer;
 import com.postech.logistica.service.EntregaService;
 import org.springframework.http.ResponseEntity;
@@ -46,15 +47,20 @@ public class EntregaController {
         return entregaService.buscarEntregasProximas(latitude, longitude, raioKm);
     }
     
-    @PutMapping("/{id}/status")
-    public ResponseEntity<Entrega> atualizarStatus(@PathVariable Long id, @RequestBody AtualizaStatusEntregaDTO dto) {
-        Entrega entregaAtualizada = entregaService.atualizarStatus(id, dto.status());
+    @PutMapping("/{entregaId}/status")
+    public ResponseEntity<Entrega> atualizarStatus(@PathVariable Long entregaId, @RequestBody AtualizaStatusEntregaDTO dto) {
+        var novoStatus = dto.status();
+        Entrega entregaAtualizada = entregaService.atualizarStatus(entregaId, novoStatus);
+        if (StatusEntrega.ENTREGA_CONCLUIDA.equals(novoStatus)) {
+            entregaConcluidaProducer.enviarEventoEntregaConcluida(entregaAtualizada.getPedidoId());
+        }
         return ResponseEntity.ok(entregaAtualizada);
     }
     
-    @PostMapping("/{id}/concluir")
-    public ResponseEntity<Void> concluirEntrega(@PathVariable Long id) {
-        entregaConcluidaProducer.enviarEventoEntregaConcluida(id);
+    @PostMapping("/{entregaId}/concluir")
+    public ResponseEntity<Void> concluirEntrega(@PathVariable Long entregaId) {
+        var entregaAtualizada = entregaService.atualizarStatus(entregaId, StatusEntrega.ENTREGA_CONCLUIDA);
+        entregaConcluidaProducer.enviarEventoEntregaConcluida(entregaAtualizada.getPedidoId());
         return ResponseEntity.ok().build();
     }
 }

@@ -86,7 +86,7 @@ public class EntregaService {
         entrega.setStatus(novoStatus);
         entregaRepository.save(entrega);
 
-        statusEntregaProducer.enviarEventoStatusEntrega(entrega.getId(), novoStatus);
+        statusEntregaProducer.enviarEventoStatusEntrega(entrega.getPedidoId(), novoStatus);
 
         return entrega;
     }

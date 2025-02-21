@@ -22,6 +22,6 @@ WORKDIR /app
 
 COPY --from=build /target .
 
-ENV LOGISTICA_GOOGLE_API_KEY=AIzaSyAxzwzhKNXN5ZfGTiyaScb3i6cS80MzLO4
+ENV LOGISTICA_GOOGLE_API_KEY=[API_KEY]
 
 ENTRYPOINT ["java", "-jar", "logistica-0.0.1-SNAPSHOT.jar"]
